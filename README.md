@@ -8,7 +8,7 @@ If you have troubles to open notebook from this repo you can get the notebook gi
 
 ## Description
 
-Here you will find all the codes used in the project, each prefix mean the man objective of notebook as show below:
+Here you will find all the codes used in the project, each prefix means the main objective of notebook as show below:
 
 - [1] Data aquisition
 - [2] Data cleaning and transformation
