@@ -11,8 +11,8 @@ If you have troubles to open notebook from this repo you can get the notebook gi
 Here you will find all the codes used in the project, each prefix mean the man objective of notebook as show below:
 
 - [1] Data aquisition
-- [2] Data cleaning 
-- [3] Exploratory data analysis
+- [2] Data cleaning and transformation
+- [3] Exploratory data analysis and indices
 
 ## Metadata
 
