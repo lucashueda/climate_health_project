@@ -1,0 +1,183 @@
+<?xml version="1.0" ?>
+<root>
+	<variable name="COD">
+		<Description>Code of the dataset</Description>
+		<Minimum_value>111.0</Minimum_value>
+		<Maximum_value>111.0</Maximum_value>
+		<Mean_value>111.0</Mean_value>
+		<Percentile_25th>111.0</Percentile_25th>
+		<Percentile_75th>111.0</Percentile_75th>
+		<Percentile_90th>111.0</Percentile_90th>
+	</variable>
+	<variable name="YEAR">
+		<Description>Year of observation</Description>
+		<Minimum_value>1997</Minimum_value>
+		<Maximum_value>2018</Maximum_value>
+		<Mean_value>2007.6904</Mean_value>
+		<Percentile_25th>2002.0</Percentile_25th>
+		<Percentile_75th>2013.0</Percentile_75th>
+		<Percentile_90th>2016.0</Percentile_90th>
+	</variable>
+	<variable name="DAY365">
+		<Description>Day of observation</Description>
+		<Minimum_value>1.0</Minimum_value>
+		<Maximum_value>366.0</Maximum_value>
+		<Mean_value>183.6904</Mean_value>
+		<Percentile_25th>93.0</Percentile_25th>
+		<Percentile_75th>275.0</Percentile_75th>
+		<Percentile_90th>330.0</Percentile_90th>
+	</variable>
+	<variable name="MINUTE2400">
+		<Description>Minute of observation</Description>
+		<Minimum_value>10.0</Minimum_value>
+		<Maximum_value>2400.0</Maximum_value>
+		<Mean_value>1192.0767</Mean_value>
+		<Percentile_25th>600.0</Percentile_25th>
+		<Percentile_75th>1810.0</Percentile_75th>
+		<Percentile_90th>2140.0</Percentile_90th>
+	</variable>
+	<variable name="N_WNDVEL_5M">
+		<Description>Wind velocity on 5 meters above ground (m/s)</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>6996.0</Maximum_value>
+		<Mean_value>1338.6405</Mean_value>
+		<Percentile_25th>1.01</Percentile_25th>
+		<Percentile_75th>2187.0</Percentile_75th>
+		<Percentile_90th>3128.0</Percentile_90th>
+	</variable>
+	<variable name="N_WNDVEL_2M">
+		<Description>Wind velocity on 2 meters above ground (m/s)</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>6993.0</Maximum_value>
+		<Mean_value>833.1132</Mean_value>
+		<Percentile_25th>0.539</Percentile_25th>
+		<Percentile_75th>1598.0</Percentile_75th>
+		<Percentile_90th>2422.0</Percentile_90th>
+	</variable>
+	<variable name="N_WNDDIR_DEGREE">
+		<Description>Wind direction (degree)</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>360.0</Maximum_value>
+		<Mean_value>164.5693</Mean_value>
+		<Percentile_25th>91.7</Percentile_25th>
+		<Percentile_75th>243.1</Percentile_75th>
+		<Percentile_90th>308.7</Percentile_90th>
+	</variable>
+	<variable name="N_INCRAD_10MSR">
+		<Description>Incident radiation (kW/m^2)</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>6999.0</Maximum_value>
+		<Mean_value>696.1908</Mean_value>
+		<Percentile_25th>0.0</Percentile_25th>
+		<Percentile_75th>339.3</Percentile_75th>
+		<Percentile_90th>3116.0</Percentile_90th>
+	</variable>
+	<variable name="N_REFRAD_10MSR">
+		<Description>Reflected radiation (kW/m^2)</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>6999.0</Maximum_value>
+		<Mean_value>260.8217</Mean_value>
+		<Percentile_25th>0.0</Percentile_25th>
+		<Percentile_75th>15.65</Percentile_75th>
+		<Percentile_90th>1012.0</Percentile_90th>
+	</variable>
+	<variable name="N_PHTFLOW_10MSR">
+		<Description>Positive heat flow W/m^2</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>6999.0</Maximum_value>
+		<Mean_value>344.5067</Mean_value>
+		<Percentile_25th>0.0</Percentile_25th>
+		<Percentile_75th>91.0</Percentile_75th>
+		<Percentile_90th>739.0</Percentile_90th>
+	</variable>
+	<variable name="N_NHTFLOW_10MSR">
+		<Description>Negative heat flow W/m^2</Description>
+		<Minimum_value>-6999.0</Minimum_value>
+		<Maximum_value>0.0</Maximum_value>
+		<Mean_value>-2165.2483</Mean_value>
+		<Percentile_25th>-6999.0</Percentile_25th>
+		<Percentile_75th>0.0</Percentile_75th>
+		<Percentile_90th>0.0</Percentile_90th>
+	</variable>
+	<variable name="N_AIRMTR_PCT10">
+		<Description>Air humidity (%)</Description>
+		<Minimum_value>5.689</Minimum_value>
+		<Maximum_value>100.0</Maximum_value>
+		<Mean_value>73.2287</Mean_value>
+		<Percentile_25th>59.79</Percentile_25th>
+		<Percentile_75th>88.3</Percentile_75th>
+		<Percentile_90th>96.5</Percentile_90th>
+	</variable>
+	<variable name="N_AIRTMP_MED10">
+		<Description>Air temperature (Celsius degree)</Description>
+		<Minimum_value>3.89</Minimum_value>
+		<Maximum_value>44.8</Maximum_value>
+		<Mean_value>21.5798</Mean_value>
+		<Percentile_25th>18.16</Percentile_25th>
+		<Percentile_75th>25.05</Percentile_75th>
+		<Percentile_90th>28.59</Percentile_90th>
+	</variable>
+	<variable name="N_GRDTMP_3CM">
+		<Description>Ground temperature at 3cm above (Celsius degree)</Description>
+		<Minimum_value>-6999.0</Minimum_value>
+		<Maximum_value>6999.0</Maximum_value>
+		<Mean_value>1861.2452</Mean_value>
+		<Percentile_25th>20.94</Percentile_25th>
+		<Percentile_75th>6999.0</Percentile_75th>
+		<Percentile_90th>6999.0</Percentile_90th>
+	</variable>
+	<variable name="N_GRDTMP_6CM">
+		<Description>Ground temperature at 6cm above (Celsius degree)</Description>
+		<Minimum_value>-6529.0</Minimum_value>
+		<Maximum_value>6999.0</Maximum_value>
+		<Mean_value>1830.8662</Mean_value>
+		<Percentile_25th>21.61</Percentile_25th>
+		<Percentile_75th>6999.0</Percentile_75th>
+		<Percentile_90th>6999.0</Percentile_90th>
+	</variable>
+	<variable name="N_GRDTMP_UV">
+		<Description>Ground temperature with UV sensor (Celsius degree)</Description>
+		<Minimum_value>-6999.0</Minimum_value>
+		<Maximum_value>6999.0</Maximum_value>
+		<Mean_value>297.2248</Mean_value>
+		<Percentile_25th>0.162</Percentile_25th>
+		<Percentile_75th>26.17</Percentile_75th>
+		<Percentile_90th>35.65</Percentile_90th>
+	</variable>
+	<variable name="N_PRESSION_HPA">
+		<Description>Air pressions (hPa)</Description>
+		<Minimum_value>822.0</Minimum_value>
+		<Maximum_value>1028.0</Maximum_value>
+		<Mean_value>946.8109</Mean_value>
+		<Percentile_25th>942.0</Percentile_25th>
+		<Percentile_75th>951.0</Percentile_75th>
+		<Percentile_90th>956.0</Percentile_90th>
+	</variable>
+	<variable name="N_RAIN_SUM10">
+		<Description>Total rain (mm)</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>6858.0</Maximum_value>
+		<Mean_value>8.1678</Mean_value>
+		<Percentile_25th>0.0</Percentile_25th>
+		<Percentile_75th>0.0</Percentile_75th>
+		<Percentile_90th>0.0</Percentile_90th>
+	</variable>
+	<variable name="MONTH">
+		<Description>Month of observation</Description>
+		<Minimum_value>1</Minimum_value>
+		<Maximum_value>12</Maximum_value>
+		<Mean_value>6.5493</Mean_value>
+		<Percentile_25th>4.0</Percentile_25th>
+		<Percentile_75th>10.0</Percentile_75th>
+		<Percentile_90th>11.0</Percentile_90th>
+	</variable>
+	<variable name="WEEK">
+		<Description>Week of observation</Description>
+		<Minimum_value>0.0</Minimum_value>
+		<Maximum_value>52.0</Maximum_value>
+		<Mean_value>25.8139</Mean_value>
+		<Percentile_25th>13.0</Percentile_25th>
+		<Percentile_75th>39.0</Percentile_75th>
+		<Percentile_90th>47.0</Percentile_90th>
+	</variable>
+</root>
