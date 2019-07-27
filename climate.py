@@ -276,6 +276,27 @@ def plot_coldwave(df, FLAG_COLDWAVE,var_temperature = 'MIN_N_AIRTMP_MED10', var_
     
 # function to check the shape of a dataframe, if shape[0] == 0 then there is no information in this df
 def check_shape(data, day, day_name = 'DAY365'):
+
+    """
+        Auxiliar function that check the shape of a dataset in a specific day
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'day_name' variable
+            
+        day : int
+            an integer number that specify a day
+         
+        day_name : string
+            a string with the name of the day variable
+           
+        Return
+        ----------
+        bool
+            returns True if the shape is above 0 else return False
+            
+    """
     
     # Here we explicit variable "DAY365" because of our specific application in this project
     if(data[data[day_name] == day].shape[0] == 0):
@@ -285,60 +306,85 @@ def check_shape(data, day, day_name = 'DAY365'):
 
 
 # auxiliary function to check if theres is at least 2 consecutive days with air temperature above the p90th in the past
-def check_2days(data, day):
-    # Data is dataframe
-    # Day is the value of day to analyse past 2 days
+def check_2days(data, day,day_name = 'DAY365'):
     
-    # If there is information in df in the day in question and 2 back also, the return True, else there is no way to there is a heatwave
-    if((check_shape(data,day)) & (check_shape(data,day-1)) & (check_shape(data,day-2)) ):
+    """
+        Auxiliar function that check the shape of a dataset in a specific day and the previous 2 days
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'day_name' variable
+            
+        day : int
+            an integer number that specify a day
+         
+        day_name : string
+            a string with the name of the day variable
+           
+        Return
+        ----------
+        bool
+            returns True if the shape is above 0 else return False
+            
+    """
+    
+    # If there is information in df in the day in question and the previous 2, then return True, else there is no way exist a heatwave
+    if((check_shape(data,day,day_name)) & (check_shape(data,day-1,day_name)) & (check_shape(data,day-2,day_name)) ):
         return True
     else:
         return False
     
 # Function that if "check_2days" is True we check if in these 2 days the definition of heatwave is satisfied
-def init_hw(data,day,index = 'CTX90pct',min_tmp_name = 'MIN_N_AIRTMP_MED10', max_tmp_name = 'MAX_N_AIRTMP_MED10', min_p90 = 25, max_p90 = 35):
-    # data is the dtaaframe
-    # day is the value of the day
-    # min_air_var_name is the name (String) of the min_air temperature
-    # max_air_var_name is the name (String) of the max_air temperature
-    # min_air_p90 is the value of p90 min tmp
-    # max_air_p90 is the value of p90 max tmp
+def init_hw(data,day, day_name = 'DAY365', max_tmp_name = 'MAX_N_AIRTMP_MED10', max_p90 = 35):
+    
+    """
+        Function that check if in a specific day starts a heatwave with an specific given percentile which will be the window based percentiles
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'max_tmp_name' variable
+            
+        day : int
+            an integer number that specify a day
+         
+        day_name : string
+            a string with the name of the day variable
+        
+        max_tmp_name : string
+            a string with the name of maximum air temperature
+            
+        max_p90 : float
+            a float with the percentile 90 for this specific day
+           
+        Return
+        ----------
+        bool
+            returns True its a init of heatwave else returns False
+            
+    """
     
     # Variables that is in our interest
-    var_names = [min_tmp_name,max_tmp_name,'DAY365']
+    var_names = [max_tmp_name,day_name]
     
-    actual_df = data[data['DAY365'] == day][var_names]
+    actual_df = data[data[day_name] == day][var_names]
     
     if(check_2days(data,day)):
         
         #Creating auxiliar df's for 1 day and 2 day back 
-        df1_back = data[data['DAY365'] == day - 1][var_names]
-        df2_back = data[data['DAY365'] == day - 2][var_names]
+        df1_back = data[data[day_name] == day - 1][var_names]
+        df2_back = data[data[day_name] == day - 2][var_names]
 
-        df1_forward = data[data['DAY365'] == day + 1][var_names]
-        df2_forward = data[data['DAY365'] == day + 2][var_names]
+        df1_forward = data[data[day_name] == day + 1][var_names]
+        df2_forward = data[data[day_name] == day + 2][var_names]
 
-#         print(df1.shape)
-#         print(df2.shape)
-        
-        # Defining conditions so that there is or not a heatwave
-        if(index == 'CTN90pct'):
-            c1_b = df1_back[min_tmp_name].values >= min_p90
-            c2_b = df2_back[min_tmp_name].values >= min_p90
-            c1_f = df1_forward[min_tmp_name].values >= min_p90
-            c2_f = df2_forward[min_tmp_name].values >= min_p90
-            c3 = actual_df[min_tmp_name].values >= min_p90
-        elif(index == 'CTX90pct'):
-            c1_b = df1_back[max_tmp_name].values >= max_p90
-            c2_b = df2_back[max_tmp_name].values >= max_p90
-            c1_f = df1_forward[max_tmp_name].values >= max_p90
-            c2_f = df2_forward[max_tmp_name].values >= max_p90
-            c3 = actual_df[max_tmp_name].values >= max_p90
-        else:
-            print('A valid index name is required.')
-            return False
-        
-#         if((c1_min)&(c2_min)&(c3_min)&(c1_max)&(c2_max)&(c3_max)):
+        c1_b = df1_back[max_tmp_name].values >= max_p90
+        c2_b = df2_back[max_tmp_name].values >= max_p90
+        c1_f = df1_forward[max_tmp_name].values >= max_p90
+        c2_f = df2_forward[max_tmp_name].values >= max_p90
+        c3 = actual_df[max_tmp_name].values >= max_p90
+
         #Condition if there is 2 days before now that the temperature exceeds the pth
         c_b = c1_b & c2_b
         
@@ -353,9 +399,40 @@ def init_hw(data,day,index = 'CTX90pct',min_tmp_name = 'MIN_N_AIRTMP_MED10', max
         return False
     
 # Function to actually get heatwaves
-def get_heatwave(data, flag, hw_name='none', index = 'CTX90pct',percentile = 0.9, day_name = 'DAY365', year_name = 'YEAR',min_tmp_name = 'MIN_N_AIRTMP_MED10', max_tmp_name = 'MAX_N_AIRTMP_MED10'):
-    #The only difference is that flag is an unique flag of heatwave (0,1)
-    #and hw_name is a name_flag, for each unique heatwave it will have an unique integer flag (0,1,2,3,...) 
+def get_heatwave(data, flag, hw_name='none',percentile = 0.9, day_name = 'DAY365', year_name = 'YEAR', max_tmp_name = 'MAX_N_AIRTMP_MED10'):
+   
+    """
+        Get heatwave returns a df with the target days under heatwave effect
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'max_tmp_name', 'day_name' and 'year_name' variables
+         
+        flag : string
+            a string name that represents a flag if there is or not a heatwave
+         
+        hw_name : string
+            a string name that represents which heatwave is there
+            
+        day_name : string
+            a string with the name of day variable
+         
+        year_name : string
+           a string with the name of the year variable
+        
+        max_tmp_name : string
+            a string with the name of maximum air temperature
+            
+        percentile : float
+            a float with the percentile 90 for this specific day
+           
+        Return
+        ----------
+        DataFrame
+            returns a dataframe with the flags of heatwave and unique heatwave
+            
+    """
     
     # Define a df that is out mutable dataframe
     df = data.copy()
@@ -384,9 +461,8 @@ def get_heatwave(data, flag, hw_name='none', index = 'CTX90pct',percentile = 0.9
             df_pct = df[(df[day_name] >= d-15) & (df[day_name] <= d + 15)]
 
             pth_max = df_pct[max_tmp_name].quantile(percentile)
-            pth_min = df_pct[min_tmp_name].quantile(percentile)
-#             print(df_pct.shape,pth_max,pth_min)
-            if(init_hw(df_year,d,index = index,max_p90=pth_max,min_p90=pth_min,max_tmp_name = max_tmp_name, min_tmp_name = min_tmp_name)):
+
+            if(init_hw(df_year,d,day_name,max_p90=pth_max,max_tmp_name = max_tmp_name)):
                 new_hw = True
                 df.loc[(df[year_name] == y) & (df[day_name] == d) , flag_heat] = 1
                 df.loc[(data[year_name] == y) & (data[day_name] == d) , flag_unique_heat] = which_heat_wave
@@ -400,16 +476,37 @@ def get_heatwave(data, flag, hw_name='none', index = 'CTX90pct',percentile = 0.9
 
 
 # Function that if "check_2days" is True we check if in these 2 days the definition of coldwave is satisfied
-def init_cw(data,day,index = 'CTN90pct',min_tmp_name = 'MIN_N_AIRTMP_MED10', max_tmp_name = 'MAX_N_AIRTMP_MED10', min_p90 = 25, max_p90 = 35):
-    # data is the dtaaframe
-    # day is the value of the day
-    # min_air_var_name is the name (String) of the min_air temperature
-    # max_air_var_name is the name (String) of the max_air temperature
-    # min_air_p90 is the value of p90 min tmp
-    # max_air_p90 is the value of p90 max tmp
+def init_cw(data,day,day_name = 'DAY365',min_tmp_name = 'MIN_N_AIRTMP_MED10',  min_p10 = 25):
+
+    """
+        Function that check if in a specific day starts a coldwave with an specific given percentile which will be the window based percentiles
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'min_tmp_name' variable
+            
+        day : int
+            an integer number that specify a day
+         
+        day_name : string
+            a string with the name of the day variable
+        
+        min_tmp_name : string
+            a string with the name of minimum air temperature
+            
+        min_p10 : float
+            a float with the percentile 10 for this specific day
+           
+        Return
+        ----------
+        bool
+            returns True its a init of coldwave else returns False
+            
+    """
     
     # Variables that is in our interest
-    var_names = [min_tmp_name,max_tmp_name,'DAY365']
+    var_names = [min_tmp_name,'DAY365']
     
     actual_df = data[data['DAY365'] == day][var_names]
     
@@ -422,27 +519,13 @@ def init_cw(data,day,index = 'CTN90pct',min_tmp_name = 'MIN_N_AIRTMP_MED10', max
         df1_forward = data[data['DAY365'] == day + 1][var_names]
         df2_forward = data[data['DAY365'] == day + 2][var_names]
 
-#         print(df1.shape)
-#         print(df2.shape)
-        
-        # Defining conditions so that there is or not a heatwave
-        if(index == 'CTN90pct'):
-            c1_b = df1_back[min_tmp_name].values <= min_p90
-            c2_b = df2_back[min_tmp_name].values <= min_p90
-            c1_f = df1_forward[min_tmp_name].values <= min_p90
-            c2_f = df2_forward[min_tmp_name].values <= min_p90
-            c3 = actual_df[min_tmp_name].values <= min_p90
-        elif(index == 'CTX90pct'):
-            c1_b = df1_back[max_tmp_name].values <= max_p90
-            c2_b = df2_back[max_tmp_name].values <= max_p90
-            c1_f = df1_forward[max_tmp_name].values <= max_p90
-            c2_f = df2_forward[max_tmp_name].values <= max_p90
-            c3 = actual_df[max_tmp_name].values <= max_p90
-        else:
-            print('A valid index name is required.')
-            return False
-        
-#         if((c1_min)&(c2_min)&(c3_min)&(c1_max)&(c2_max)&(c3_max)):
+        c1_b = df1_back[min_tmp_name].values <= min_p10
+        c2_b = df2_back[min_tmp_name].values <= min_p10
+        c1_f = df1_forward[min_tmp_name].values <= min_p10
+        c2_f = df2_forward[min_tmp_name].values <= min_p10
+        c3 = actual_df[min_tmp_name].values <= min_p10
+
+
         #Condition if there is 2 days before now that the temperature exceeds the pth
         c_b = c1_b & c2_b
         
@@ -457,9 +540,40 @@ def init_cw(data,day,index = 'CTN90pct',min_tmp_name = 'MIN_N_AIRTMP_MED10', max
         return False
 
 # Function to actually get coldwaves
-def get_coldwave(data, flag, cw_name='none', index = 'CTN90pct',percentile = 0.1, day_name = 'DAY365', year_name = 'YEAR',min_tmp_name = 'MIN_N_AIRTMP_MED10', max_tmp_name = 'MAX_N_AIRTMP_MED10'):
-    #The only difference is that flag is an unique flag of heatwave (0,1)
-    #and hw_name is a name_flag, for each unique heatwave it will have an unique integer flag (0,1,2,3,...) 
+def get_coldwave(data, flag, cw_name='none',percentile = 0.1, day_name = 'DAY365', year_name = 'YEAR',min_tmp_name = 'MIN_N_AIRTMP_MED10'):
+
+    """
+        Get coldwave returns a df with the target days under coldwave effect
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'max_tmp_name', 'day_name' and 'year_name' variables
+         
+        flag : string
+            a string name that represents a flag if there is or not a coldwave
+         
+        hw_name : string
+            a string name that represents which coldwave is there
+            
+        day_name : string
+            a string with the name of day variable
+        
+        year_name : string
+           a string with the name of the year variable
+        
+        min_tmp_name : string
+            a string with the name of minimum air temperature
+            
+        percentile : float
+            a float with the percentile 10 for this specific day
+           
+        Return
+        ----------
+        DataFrame
+            returns a dataframe with the flags of coldwave and unique coldwave
+            
+    """
     
     # Define a df that is out mutable dataframe
     df = data.copy()
@@ -468,11 +582,11 @@ def get_coldwave(data, flag, cw_name='none', index = 'CTN90pct',percentile = 0.1
     flag_cold = flag
     flag_unique_cold = cw_name
 
-    # Defining variable that flags heat waves with zeros
+    # Defining variable that flags coldwave with zeros
     df[flag_cold] = 0
     df[flag_unique_cold] = 0
 
-    # Variable that describe unique heataves, each one of hetawaves will have an unique integer number
+    # Variable that describe unique coldwave, each one of coldwave will have an unique integer number
     which_cold_wave = 1
     new_cw = False
     
@@ -487,10 +601,8 @@ def get_coldwave(data, flag, cw_name='none', index = 'CTN90pct',percentile = 0.1
             # For each day we will have a different pct
             df_pct = df[(df[day_name] >= d-15) & (df[day_name] <= d+15 )]
 
-            pth_max = df_pct[max_tmp_name].quantile(percentile)
             pth_min = df_pct[min_tmp_name].quantile(percentile)
-#             print(df_pct.shape,pth_max,pth_min)
-            if(init_cw(df_year,d,index = index,max_p90=pth_max,min_p90=pth_min,max_tmp_name = max_tmp_name, min_tmp_name = min_tmp_name)):
+            if(init_cw(df_year,d,day_name,min_p90=pth_min, min_tmp_name = min_tmp_name)):
                 new_cw = True
                 df.loc[(df[year_name] == y) & (df[day_name] == d) , flag_cold] = 1
                 df.loc[(data[year_name] == y) & (data[day_name] == d) , flag_unique_cold] = which_cold_wave
@@ -503,29 +615,59 @@ def get_coldwave(data, flag, cw_name='none', index = 'CTN90pct',percentile = 0.1
 
 
 # Function get thermal amplitude waves
-def get_thermamp(data, flag, ta_name='none', index = 'CTN90pct',percentile = 0.1, day_name = 'DAY365', year_name = 'YEAR',min_tmp_name = 'MIN_N_AIRTMP_MED10', max_tmp_name = 'MAX_N_AIRTMP_MED10'):
-    #The only difference is that flag is an unique flag of heatwave (0,1)
-    #and hw_name is a name_flag, for each unique heatwave it will have an unique integer flag (0,1,2,3,...) 
+def get_thermamp(data, flag, ta_name='none',percentile = 0.9, day_name = 'DAY365', year_name = 'YEAR', therm_amp_name = 'MAX_N_AIRTMP_MED10'):
+
+    """
+        Get thermal amplitude wave returns a df with the target days under termal amplitude wave effect
+                
+        Parameters
+        ----------
+        data : pandas.Dataframe
+            a dataframe with the 'max_tmp_name', 'day_name' and 'year_name' variables
+         
+        flag : string
+            a string name that represents a flag if there is or not a termal amplitude wave
+         
+        ta_name : string
+            a string name that represents which termal amplitude wave is there
+            
+        day_name : string
+            a string with the name of day variable
+        
+        year_name : string
+           a string with the name of the year variable
+        
+        therm_amp_name : string
+            a string with the name of thermal amplitude of air temperature
+            
+        percentile : float
+            a float with the percentile 90 for this specific day
+           
+        Return
+        ----------
+        DataFrame
+            returns a dataframe with the flags of termal amplitude wave and unique termal amplitude wave
+            
+    """
     
     # Define a df that is out mutable dataframe
     df = data.copy()
     
     # here we define the flag variable names
-    flag_cold = flag
-    flag_unique_cold = ta_name
+    flag_ta = flag
+    flag_unique_ta = ta_name
 
-    # Defining variable that flags heat waves with zeros
+    # Defining variable that flags termal amplitude wave with zeros
     df[flag_cold] = 0
     df[flag_unique_cold] = 0
 
-    # Variable that describe unique heataves, each one of hetawaves will have an unique integer number
-    which_cold_wave = 1
-    new_cw = False
+    # Variable that describe unique termal amplitude wave, each one of termal amplitude wave will have an unique integer number
+    which_ta_wave = 1
+    new_ta = False
     
    
 
     pth_max = 15
-    pth_min = 15
     
     for y in df[year_name].unique():
         df_year = df[df[year_name] == y]
@@ -536,20 +678,19 @@ def get_thermamp(data, flag, ta_name='none', index = 'CTN90pct',percentile = 0.1
 
         for d in itera:
 
-#             print(df_pct.shape,pth_max,pth_min)
-            if(init_cw(df_year,d,index = index,max_p90=pth_max,min_p90=pth_min)):
+            if(init_cw(df_year,d,day_name,max_p90=pth_max)):
                 new_cw = True
-                df.loc[(df[year_name] == y) & (df[day_name] == d) , flag_cold] = 1
-                df.loc[(df[year_name] == y) & (df[day_name] == d) , flag_unique_cold] = which_cold_wave
+                df.loc[(df[year_name] == y) & (df[day_name] == d) , flag_ta] = 1
+                df.loc[(df[year_name] == y) & (df[day_name] == d) , flag_unique_ta] = which_ta_wave
             else:
-                if(new_cw == True):
-                    which_cold_wave = which_cold_wave + 1
-                    new_cw = False
+                if(new_ta == True):
+                    which_ta_wave = which_ta_wave + 1
+                    new_ta = False
                 pass
     return df
 
 
-# Functions to get e and H given T in celsius and dewpoint also in celsius
+# Functions to get e and H given T in celsius and dewpoint also in celsius to get humidex index
 
 def get_e(td):
     e = 6.11*np.exp(5417.7530*((1/273.16) - 1/(td+273.16)))
